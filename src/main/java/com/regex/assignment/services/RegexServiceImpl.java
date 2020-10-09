@@ -15,7 +15,7 @@ public class RegexServiceImpl implements RegexService {
 
 	@Override
 	public RegexResponse timedPatternMatch(String regex, String text, long time) throws InterruptedException {
-		response = new RegexResponse("", false);
+		response = new RegexResponse("", true);
 
 		if (text == null || text.length() == 0)
 			return response;
@@ -32,9 +32,10 @@ public class RegexServiceImpl implements RegexService {
 			public void run() {
 				long startTime = System.currentTimeMillis();
 				Matcher interruptableMatcher = pattern.matcher(new InterruptibleCharSequence(input));
-				interruptableMatcher.find(); // runs for a longer than given time then interrupts
-				response.setMatch(interruptableMatcher.group());
-				response.setError(false);
+				if (interruptableMatcher.find()) { // runs for a longer than given time then interrupts
+					response.setMatch(interruptableMatcher.group(0));
+					response.setError(false);
+				}
 				System.out.println("Regex took:" + (System.currentTimeMillis() - startTime) + "ms");
 			}
 		};

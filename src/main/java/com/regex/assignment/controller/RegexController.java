@@ -22,7 +22,7 @@ public class RegexController {
 	@Autowired
 	private RegexService regexService;
 
-	long timeLimit = 500;
+	long timeLimit =500;
 
 	@RequestMapping(value = "/match", produces = "application/json", method = RequestMethod.POST)
 	public @ResponseBody RegexResponse matchRegex(@RequestBody RegexRequest request) throws InterruptedException {
