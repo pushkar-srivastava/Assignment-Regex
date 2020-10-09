@@ -1,9 +1,6 @@
 package com.regex.assignment.controller;
 
-import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +19,12 @@ public class RegexController {
 	@Autowired
 	private RegexService regexService;
 
+	/*
+	 * time in milliseconds used to restrict the time taken for a regular expression
+	 * to match. Suppose if we have a bad regular expression which is taking a lot
+	 * of time then, the thread which is performing matching operation interrupts after timeLimit
+	 * milliseconds.
+	 */
 	long timeLimit =500;
 
 	@RequestMapping(value = "/match", produces = "application/json", method = RequestMethod.POST)

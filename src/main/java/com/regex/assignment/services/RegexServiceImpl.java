@@ -15,11 +15,13 @@ public class RegexServiceImpl implements RegexService {
 
 	@Override
 	public RegexResponse timedPatternMatch(String regex, String text, long time) throws InterruptedException {
+		// Default value of the response
 		response = new RegexResponse("", true);
-
+		// if the Text is null or Empty
 		if (text == null || text.length() == 0)
 			return response;
 		try {
+			// Exception Handling for Syntax error in Regular Expression.
 			Pattern.compile(regex);
 		} catch (PatternSyntaxException e) {
 			return response;
@@ -27,6 +29,7 @@ public class RegexServiceImpl implements RegexService {
 		final Pattern pattern = Pattern.compile(regex);
 		final String input = text;
 
+		// Definition of thread which is Performing the matching operation.
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
@@ -39,9 +42,9 @@ public class RegexServiceImpl implements RegexService {
 				System.out.println("Regex took:" + (System.currentTimeMillis() - startTime) + "ms");
 			}
 		};
-
+		// Create a new Thread from runnable instance
 		Thread thread = new Thread(runnable);
-		// starting new thread for matching
+		// starting thread for matching
 		thread.start();
 		// pausing the execution of current thread.
 		Thread.sleep(time);
